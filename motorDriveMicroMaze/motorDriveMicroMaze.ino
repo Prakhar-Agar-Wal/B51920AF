@@ -42,60 +42,62 @@ void loop() {
   irReadRF = digitalRead(iRRightfront);
   irReadRS = digitalRead(iRRightside);
   CurrentMillis = millis();
-  // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
-  if ((CurrentMillis-LastMillis1)<10000)
-  // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
-  {
-    incomingByte=0;
-    headingAngle_input = 0;
-  }
-  else if ((CurrentMillis-LastMillis1)<11000)
-  // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
-  {
-    // Brake();
-    // stopFlag = 1;
-    headingAngle_input = 0;
-    incomingByte=600;
-  }
+  // // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
+  // if ((CurrentMillis-LastMillis1)<10000)
+  // // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
+  // {
+  //   incomingByte=300;
+  //   headingAngle_input = 0;
+  // }
+  // else if ((CurrentMillis-LastMillis1)<11000)
+  // // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
+  // {
+  //   // Brake();
+  //   // stopFlag = 1;
+  //   headingAngle_input = 0;
+  //   incomingByte=100;
+  // }
 
-  else if((CurrentMillis-LastMillis1)<11500){
-    incomingByte = 0;
-    headingAngle_input=0;
-  }
-  else if((CurrentMillis-LastMillis1)<12000){
-    headingAngle_input=90;
-    incomingByte = 0;
-  }
-  else if((CurrentMillis-LastMillis1)<13000){
-    headingAngle_input=0;
-    incomingByte = 0;
-  }
-  //  else if((CurrentMillis-LastMillis1)<19000){
+  // else if((CurrentMillis-LastMillis1)<11500){
+  //   incomingByte = 0;
   //   headingAngle_input=0;
-  //   incomingByte = 300;
   // }
-  else if((CurrentMillis-LastMillis1)<14000){
-    headingAngle_input=180;
-    incomingByte = 0;
-  }
-  else if((CurrentMillis-LastMillis1)<15000){
-    headingAngle_input=180;
-    incomingByte = 600;
-  }
-  // if((CurrentMillis-LastMillis1)>2000){
-  //   headingAngle_input = random(-180,180);
-  //   LastMillis1 = CurrentMillis;
+  // else if((CurrentMillis-LastMillis1)<12000){
+  //   headingAngle_input=90;
+  //   incomingByte = 0;
+  // }
+  // else if((CurrentMillis-LastMillis1)<13000){
+  //   headingAngle_input=0;
+  //   incomingByte = 0;
+  // }
+  // //  else if((CurrentMillis-LastMillis1)<19000){
+  // //   headingAngle_input=0;
+  // //   incomingByte = 300;
+  // // }
+  // else if((CurrentMillis-LastMillis1)<14000){
+  //   headingAngle_input=180;
+  //   incomingByte = 0;
+  // }
+  // else if((CurrentMillis-LastMillis1)<15000){
+  //   headingAngle_input=180;
+  //   incomingByte = 100;
+  // }
+  // // if((CurrentMillis-LastMillis1)>2000){
+  // //   headingAngle_input = random(-180,180);
+  // //   LastMillis1 = CurrentMillis;
+  // // }
+
+  // else
+  // {
+  //   incomingByte = 0; //set pwm here
   // }
 
-  else
-  {
-    incomingByte = 0; //set pwm here
-  }
-
+  headingAngle_input = 0;
+  incomingByte =0;
   
   // Serial.println((yaw));
   // Serial.print(" ");
 
-  // displayPWMGraph();
+  displayPWMGraph();
 
 }

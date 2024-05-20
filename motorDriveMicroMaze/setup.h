@@ -1,3 +1,4 @@
+#include "Arduino.h"
 void _main_setup(){
   pinMode(in1Left, OUTPUT);
   pinMode(in2Left, OUTPUT);
@@ -27,5 +28,8 @@ void _main_setup(){
   pinMode(iRLeftside, INPUT);
   pinMode(iRRightfront, INPUT);
   pinMode(iRRightside, INPUT);
+
+  pinMode(encLeft,INPUT_PULLUP);
+  pinMode(encRight,INPUT_PULLUP);
 }
 

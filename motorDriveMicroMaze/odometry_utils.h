@@ -8,15 +8,27 @@ int calculateRPM(int currentEncoder, int previousEncoder)
         rot_speed = temp2/temp3;
         return(rot_speed);
 }
+void updateEnc(){
+  currReadLeft = digitalRead(encLeft);
+  currReadRight = digitalRead(encRight);
+  if (currReadRight != previousStateRight){
+    curPosRight++;
+    previousStateRight = currReadRight;
+  }
+  if (currReadLeft != previousStateLeft){
+    curPosLeft++;
+    previousStateLeft = currReadLeft;
+  }
+
+}
 
 void updateRpm(){
+  updateEnc();
   signedSetPointLeft = incomingByte+outputAngle;
   signedSetPointRight = incomingByte-outputAngle;
   SetpointLeft=abs(incomingByte+outputAngle);
   SetpointRight=abs(incomingByte-outputAngle);
   
-  curPosRight = rightEnc.read();
-  curPosLeft = leftEnc.read();
   
   
   currentMillis = millis();
@@ -28,15 +40,15 @@ void updateRpm(){
     prevPosLeft = curPosLeft;
     
     }
-  InputLeft=abs(rpmLeft);
-  InputRight=abs(rpmRight);
+  InputLeft=rpmLeft;
+  InputRight=rpmRight;
   // Serial.print(curPosRight);
   // Serial.print(" ");
-  // Serial.print(InputRight);
+  // Serial.print(rpmRight);
   // Serial.print(" ");
   // Serial.print(curPosLeft);
   // Serial.print(" ");
-  // Serial.println(InputLeft);
+  // Serial.println(rpmLeft);
   myPIDLeft.Compute();
   myPIDRight.Compute();
   

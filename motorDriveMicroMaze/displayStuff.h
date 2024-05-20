@@ -4,29 +4,29 @@ void displayPWMGraph()
 {
   CurrentMillis = millis();
 if ((CurrentMillis - LastMillis) > 40){
-      Serial.print("InputAngle:");
-      Serial.print(inputAngle);
+      Serial.print("InputLefte:");
+      Serial.print(InputLeft);
       Serial.print(",");
-      // Serial.print("InputRight:");
-      // Serial.print(InputRight);
-      // Serial.print(",");
-      Serial.print("OutputAngle:");
-      Serial.print(outputAngle);
+      Serial.print("InputRight:");
+      Serial.print(InputRight);
       Serial.print(",");
-      // Serial.print("OutputRight:");
-      // Serial.print(OutputRight);
-      // Serial.print(",");
+      Serial.print("OutputLeft:");
+      Serial.print(OutputLeft);
+      Serial.print(",");
+      Serial.print("OutputRight:");
+      Serial.print(OutputRight);
+      Serial.print(",");
       Serial.print("MinValue:");
-      Serial.print(-100);
+      Serial.print(0);
       Serial.print(",");
       Serial.print("MaxValue:");
-      Serial.print(100);
+      Serial.print(1500);
       Serial.print(",");
-      Serial.print("OriginalSetPoint:");
-      Serial.print(headingAngle_input);
+      Serial.print("SetPointLeft:");
+      Serial.print(SetpointLeft);
       Serial.print(",");
-       Serial.print("Setpoint:");
-      Serial.print(setPointAngle);
+       Serial.print("SetpointRight:");
+      Serial.print(SetpointRight);
       Serial.println(",");
       LastMillis = CurrentMillis;
     }

@@ -1,5 +1,5 @@
 #include <PID_v2.h>
-#include <Encoder.h>
+// #include <Encoder.h>
 
 
 
@@ -26,25 +26,33 @@ int irReadRF = 0;
 int irReadRS = 0;
 
 //Encoder pins and Initialization
+// Encoder rightEnc(5);
+// Encoder leftEnc(8);
+const short int encLeft = 8;
+const short int encRight = 5;
+bool previousStateLeft = 0;
+bool previousStateRight = 0;
+bool currReadLeft = 0;
+bool currReadRight = 0;
 
-Encoder rightEnc(6,5);
-Encoder leftEnc(7,8);
+// Encoder rightEnc(5,6);
+// Encoder leftEnc(8,7);
 //int encLeft1 = 6;
 //int encLeft2 = 5;
 //int encRight1 = 8;
 //int encRight2 = 7;
 
-long curPosRight =0;
-long curPosLeft =0;
-long prevPosLeft =0;
-long prevPosRight =0;
+volatile long int curPosRight =0;
+volatile long int curPosLeft =0;
+volatile long int prevPosLeft =0;
+volatile long int prevPosRight =0;
 volatile int rpmRight = 0;
 volatile int rpmLeft = 0;
 volatile int rot_speed;
 long previousMillis = 0;
 long currentMillis = 0;
 int interval = 40;
-const int PPR = 116;
+const int PPR = 60;
 
 
 // PID initialization
