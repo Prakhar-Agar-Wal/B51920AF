@@ -80,7 +80,7 @@ PID anglePID(&inputAngle, &outputAngle, &setPointAngle,kp_angle, ki_angle, kd_an
 
 //others
 
-volatile int incomingByte= 0;
+volatile int setPointLinear= 0;
 
 long temp1;
 long temp2;
@@ -98,3 +98,8 @@ bool stopFlag = 0;
 float abs_multiplier = 0.5;
 float yaw = 0.0;
 int headingAngle_input;
+
+bool launchControlActive = 0;
+
+int previous_launch_control = 1;
+int previous_previous_launch_control = 1;

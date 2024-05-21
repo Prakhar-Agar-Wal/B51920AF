@@ -85,3 +85,29 @@ void forward(int pwmleft,int pwmright)
 }
 }
 
+int launchControl(volatile int setPoint){
+  
+  if(launchControlActive){
+    int current = previous_launch_control + 1;
+    if(current>setPoint){
+      launchControlActive = 0;
+      return(setPoint);
+    }
+    Serial.print(current);
+    // Serial.print(" ");
+    // Serial.print(previous_previous_launch_control);
+    Serial.print(" ");
+    Serial.println(previous_launch_control);
+    // previous_previous_launch_control = previous_launch_control;
+    delay(0.5);
+    previous_launch_control = current;
+    return(current);
+  }
+  else{
+    previous_launch_control = 1;
+    previous_previous_launch_control = 1;
+    return(setPoint);
+  }
+
+
+}

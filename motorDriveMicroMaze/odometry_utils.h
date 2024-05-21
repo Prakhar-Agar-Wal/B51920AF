@@ -24,10 +24,15 @@ void updateEnc(){
 
 void updateRpm(){
   updateEnc();
-  signedSetPointLeft = incomingByte+outputAngle;
-  signedSetPointRight = incomingByte-outputAngle;
-  SetpointLeft=abs(incomingByte+outputAngle);
-  SetpointRight=abs(incomingByte-outputAngle);
+  if ((setPointLinear>0) && ((rpmRight == 0) && (rpmLeft == 0))){
+    launchControlActive = 1;
+  }
+  // Serial.println(launchControlActive);
+  setPointLinear = launchControl(setPointLinear);
+  signedSetPointLeft = setPointLinear+outputAngle;
+  signedSetPointRight = setPointLinear-outputAngle;
+  SetpointLeft=abs(setPointLinear+outputAngle);
+  SetpointRight=abs(setPointLinear-outputAngle);
   
   
   
