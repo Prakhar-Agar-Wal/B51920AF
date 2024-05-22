@@ -97,9 +97,32 @@ bool stopFlag = 0;
 
 float abs_multiplier = 0.5;
 float yaw = 0.0;
+float unshifted_yaw = 0.0;
+float shifted_yaw = 0.0;
 int headingAngle_input;
 
 bool launchControlActive = 0;
 
 int previous_launch_control = 1;
 int previous_previous_launch_control = 1;
+
+// odometry
+float realVelRight= 0;
+float realVelLeft = 0;
+float circumference = 0.034*3.14;
+struct odomVals_struct{
+  float x_n;
+  float y_n;
+  float theta_n;
+}odomVal={0};
+
+float x_n_test=0;
+float y_n_test=0;
+float theta_n_test=0;
+float R ;
+float ICC_x;
+float ICC_y;
+    
+float omega;
+float delta_Theta;
+

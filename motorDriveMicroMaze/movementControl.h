@@ -93,13 +93,13 @@ int launchControl(volatile int setPoint){
       launchControlActive = 0;
       return(setPoint);
     }
-    Serial.print(current);
+    // Serial.print(current);
     // Serial.print(" ");
     // Serial.print(previous_previous_launch_control);
-    Serial.print(" ");
-    Serial.println(previous_launch_control);
+    // Serial.print(" ");
+    // Serial.println(previous_launch_control);
     // previous_previous_launch_control = previous_launch_control;
-    delay(0.5);
+    // delay(0.5);
     previous_launch_control = current;
     return(current);
   }

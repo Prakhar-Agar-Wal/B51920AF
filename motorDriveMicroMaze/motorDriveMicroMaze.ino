@@ -32,7 +32,8 @@ void setup() {
 }
 
 void loop() { 
-  yaw = correctEulerYaw(get_yaw());
+  unshifted_yaw = 0;
+  yaw = correctEulerYaw(unshifted_yaw);
   anglePID1(correctEulerYaw(headingAngle_input));
   updateRpm();
 
@@ -46,7 +47,7 @@ void loop() {
   if ((CurrentMillis-LastMillis1)<10000)
   // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
   {
-    setPointLinear=0;
+    setPointLinear=700;
     headingAngle_input = 0;
   }
   else if((CurrentMillis-LastMillis1)<12000){
@@ -104,5 +105,6 @@ void loop() {
   // Serial.print(" ");
 
   // displayPWMGraph();
+  displayVelocityOdom();
 
 }

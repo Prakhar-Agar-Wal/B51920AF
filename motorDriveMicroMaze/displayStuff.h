@@ -20,7 +20,7 @@ if ((CurrentMillis - LastMillis) > 40){
       Serial.print(0);
       Serial.print(",");
       Serial.print("MaxValue:");
-      Serial.print(1500);
+      Serial.print(900);
       Serial.print(",");
       Serial.print("SetPointLeft:");
       Serial.print(SetpointLeft);
@@ -30,4 +30,28 @@ if ((CurrentMillis - LastMillis) > 40){
       Serial.println(",");
       LastMillis = CurrentMillis;
     }
+}
+void displayVelocityOdom(){
+    CurrentMillis = millis();
+if ((CurrentMillis - LastMillis) > 40){
+      Serial.print("RealVelRIght:");
+      Serial.print(realVelRight);
+      Serial.print(",");
+      Serial.print("RealVelLeft:");
+      Serial.print(realVelLeft);
+      Serial.print(",");
+      Serial.print("Odom_x:");
+      Serial.print(odomVal.x_n);
+      Serial.print(",");
+      Serial.print("Odom_y:");
+      Serial.print(odomVal.y_n);
+      Serial.print(",");
+      Serial.print("theta:");
+      Serial.print(odomVal.theta_n);
+      Serial.print(",");
+      Serial.print("RPMLeft:");
+      Serial.print(rpmLeft);
+      Serial.println(",");
+  LastMillis = CurrentMillis;
+}
 }
