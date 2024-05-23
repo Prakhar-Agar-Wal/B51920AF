@@ -97,8 +97,6 @@ bool stopFlag = 0;
 
 float abs_multiplier = 0.5;
 float yaw = 0.0;
-float unshifted_yaw = 0.0;
-float shifted_yaw = 0.0;
 int headingAngle_input;
 
 bool launchControlActive = 0;
@@ -107,22 +105,38 @@ int previous_launch_control = 1;
 int previous_previous_launch_control = 1;
 
 // odometry
-float realVelRight= 0;
-float realVelLeft = 0;
+// float realVelRight= 0;
+// float realVelLeft = 0;
 float circumference = 0.034*3.14;
-struct odomVals_struct{
-  float x_n;
-  float y_n;
-  float theta_n;
-}odomVal={0};
+// struct odomVals_struct{
+//   float x_n;
+//   float y_n;
+//   float theta_n;
+// }odomVal={0};
 
-float x_n_test=0;
-float y_n_test=0;
-float theta_n_test=0;
-float R ;
-float ICC_x;
-float ICC_y;
+// float x_n_test=0;
+// float y_n_test=0;
+// float theta_n_test=0;
+// float R ;
+// float ICC_x;
+// float ICC_y;
     
-float omega;
-float delta_Theta;
+// float omega;
+// float delta_Theta;
+
+// odometry
+float previous_distance = 0;
+float current_distance = 0;
+// struct neighbors{
+//     bool visited,NorthN,EastN,SouthN,WestN;
+//     short int data;
+// };
+short int current_position_x = 0;
+short int current_position_y = 0;
+
+float cell_length = 0.18;
+
+bool temp4=1;
+bool achieved = 0;
+bool achieved1 = 0;
 
