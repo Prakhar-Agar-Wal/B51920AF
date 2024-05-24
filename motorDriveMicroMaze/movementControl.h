@@ -30,8 +30,8 @@ void Brake()
   digitalWrite(in2Right, HIGH);
   if (rpmLeft>=20 && rpmRight>=20){
     // Serial.println("brakinggggg");
-    analogWrite(pwmLeft,20);
-    analogWrite(pwmRight,20);
+    analogWrite(pwmLeft,50);
+    analogWrite(pwmRight,50);
     // analogWrite(pwmLeft,255);
     // analogWrite(pwmRight,255);
   }

@@ -106,11 +106,11 @@ void loop() {
   // simulation();
   if(CurrentMillis>10000){
   if(!achieved1 && !achieved){
-    achieved = moveToCell(14,0);
+    achieved = moveToCell(15,0);
   }
   
   if(achieved){
-    achieved1 = moveToCell(14,3);
+    achieved1 = moveToCell(15,3);
   }
   // achieved1 = moveToCell(0,3);
   // Serial.print(current_position_x);

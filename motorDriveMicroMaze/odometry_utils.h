@@ -99,6 +99,7 @@ void odometry(){
 
   }
   else{
+    if(previous_distance)
     previous_distance = current_distance;
   }
 
@@ -108,6 +109,18 @@ void odometry(){
 void updateRpm(){
   updateEnc();
   // Serial.println(rpmRight);
+  currentMillis = millis();
+  if((currentMillis - previousMillis)>interval){
+    previousMillis = currentMillis;
+    rpmRight = calculateRPM(curPosRight,prevPosRight);
+    prevPosRight = curPosRight;
+    rpmLeft = calculateRPM(curPosLeft,prevPosLeft);
+    prevPosLeft = curPosLeft;
+    
+    }
+  // updateRealVel();
+
+  odometry();
   if ((setPointLinear>0) && ((rpmRight == 0) && (rpmLeft == 0))){
     
     launchControlActive = 1;
@@ -125,18 +138,7 @@ void updateRpm(){
   
   
   
-  currentMillis = millis();
-  if((currentMillis - previousMillis)>interval){
-    previousMillis = currentMillis;
-    rpmRight = calculateRPM(curPosRight,prevPosRight);
-    prevPosRight = curPosRight;
-    rpmLeft = calculateRPM(curPosLeft,prevPosLeft);
-    prevPosLeft = curPosLeft;
-    
-    }
-  // updateRealVel();
-
-  odometry();
+  
 
   InputLeft=rpmLeft;
   InputRight=rpmRight;

@@ -1,4 +1,5 @@
 #include <PID_v2.h>
+#include "floodFill.h"
 // #include <Encoder.h>
 
 
@@ -42,10 +43,10 @@ bool currReadRight = 0;
 //int encRight1 = 8;
 //int encRight2 = 7;
 
-volatile long int curPosRight =0;
-volatile long int curPosLeft =0;
-volatile long int prevPosLeft =0;
-volatile long int prevPosRight =0;
+volatile long int curPosRight =42;
+volatile long int curPosLeft =42;
+volatile long int prevPosLeft =42;
+volatile long int prevPosRight =42;
 volatile int rpmRight = 0;
 volatile int rpmLeft = 0;
 volatile int rot_speed;
@@ -126,7 +127,7 @@ float circumference = 0.034*3.14;
 
 // odometry
 float previous_distance = 0;
-float current_distance = 0;
+float current_distance = 0.13;
 // struct neighbors{
 //     bool visited,NorthN,EastN,SouthN,WestN;
 //     short int data;
@@ -139,4 +140,5 @@ float cell_length = 0.18;
 bool temp4=1;
 bool achieved = 0;
 bool achieved1 = 0;
+
 
