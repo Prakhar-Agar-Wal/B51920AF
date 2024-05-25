@@ -6,6 +6,7 @@
 #include "imu_driver.h"
 #include "setup.h"
 #include "odometry_utils.h"
+#include "floodFill.h"
 
 // static void inputs(uint8_t c){
 //   if(c != 10){
@@ -28,6 +29,8 @@ void setup() {
   Serial.begin(115200);
 // Motor Driver
  _main_setup();
+ init_flood();
+ 
 
 }
 
@@ -112,6 +115,7 @@ void loop() {
   if(achieved){
     achieved1 = moveToCell(15,3);
   }
+  currCell = main_flood(currCell);
   // achieved1 = moveToCell(0,3);
   // Serial.print(current_position_x);
   // Serial.print(" ");

@@ -1,16 +1,7 @@
-#include <Stack.h>
 
-#include <cppQueue.h>
 
-struct neighbors{
-    bool visited,NorthN,EastN,SouthN,WestN,visitedMouse;
-    short int data,PosX,PosY;
-};
 
-struct pair{
-  short int first;
-  short int second;
-};
+
 // function to check the if the neighbors are valid or not.(Neighbors should be in the boundaries of the maze. 16x16)
 bool neighborCheck( int m, int n, int x, int y)
 {
@@ -206,9 +197,9 @@ void wallsInit(neighbors microMouseSim[][8])
 
 }
 
-void bubbleSort(neighbors arr[], int n)
+void bubbleSort(neighbors arr[], short int n)
 {
-    int i, j;
+    short int i, j;
     bool swapped;
     neighbors temp;
     for (i = 0; i < n - 1; i++) {
@@ -229,39 +220,12 @@ void bubbleSort(neighbors arr[], int n)
     }
 }
 
-bool firstTime=true;
 
-pair main_flood(){
-  pair xy;
-  cppQueue pathStack(sizeof(xy),255,LIFO);
-  
-    // Row of the maze
-    int m = 8;
-    // Column of the Maze
-    int n = 8;
-    
-
-    
-    pair currCell,nextCell,startingCell,endingCell,pathCell;
-    
-    startingCell.first=7;
-    startingCell.second=0;
-    
-    endingCell.first=m/2;
-    endingCell.second=n/2;
-    
-    
-    currCell.first=startingCell.first;
-    currCell.second=startingCell.second;
-    
-    nextCell.first=0;
-    nextCell.second=0;
-    
-    
-    neighbors arr[8][8]={0}; // main array
-    neighbors microMouseSim[8][8]={0};  // only for simulating the walls.
-  
-     // initializing Neighbors
+void init_flood(){
+  static neighbors arr[8][8]={0}; // main array
+  static neighbors microMouseSim[8][8]={0};  // only for simulating the walls.
+ 
+  // initializing Neighbors
      for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++)
         {
@@ -275,7 +239,7 @@ pair main_flood(){
                 arr[i][j].WestN=1;
         }
      }
-    // copying the neighbors data to the Simulation array.
+     // copying the neighbors data to the Simulation array.
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++)
         { 
@@ -287,148 +251,147 @@ pair main_flood(){
          }
 
     }
-    
-    
     wallsInit(microMouseSim);
     floodFill(arr, m, n, endingCell.first, endingCell.second);  //First init of FloodFill
+}
+
+pair main_flood(pair currCell){
+  neighbors arr[8][8]={0}; // main array
+  neighbors microMouseSim[8][8]={0};  // only for simulating the walls.
     // printarr(arr,m,n);
-    int k=0;
-    while (true)
-    {k++;
-      neighbors temp[]={ {0,0,0,0,0,0,99,0,0},
-                       {0,0,0,0,0,0,99,0,0},
-                       {0,0,0,0,0,0,99,0,0},
-                       {0,0,0,0,0,0,99,0,0}};
+  neighbors temp[]={ {0,0,0,0,0,99,0,0},
+                    {0,0,0,0,0,99,0,0},
+                    {0,0,0,0,0,99,0,0},
+                    {0,0,0,0,0,99,0,0}};
 
-            arr[currCell.first][currCell.second].visitedMouse=1;
-            arr[currCell.first][currCell.second].EastN=microMouseSim[currCell.first][currCell.second].EastN;
-            arr[currCell.first][currCell.second+1].WestN=microMouseSim[currCell.first][currCell.second].EastN;
+        // arr[currCell.first][currCell.second].visitedMouse=1;
+        arr[currCell.first][currCell.second].EastN=microMouseSim[currCell.first][currCell.second].EastN;
+        arr[currCell.first][currCell.second+1].WestN=microMouseSim[currCell.first][currCell.second].EastN;
 
-            arr[currCell.first][currCell.second].WestN=microMouseSim[currCell.first][currCell.second].WestN;
-            arr[currCell.first][currCell.second-1].EastN=microMouseSim[currCell.first][currCell.second].WestN;
-            
-            arr[currCell.first][currCell.second].NorthN=microMouseSim[currCell.first][currCell.second].NorthN;
-            arr[currCell.first-1][currCell.second].SouthN=microMouseSim[currCell.first][currCell.second].NorthN;
-            
-            arr[currCell.first][currCell.second].SouthN=microMouseSim[currCell.first][currCell.second].SouthN;
-            arr[currCell.first+1][currCell.second].NorthN=microMouseSim[currCell.first][currCell.second].SouthN;
-            
-            // cout<<"Iteration: "<<k<<" #####################################"<<endl;
-            // cout<<endl;
+        arr[currCell.first][currCell.second].WestN=microMouseSim[currCell.first][currCell.second].WestN;
+        arr[currCell.first][currCell.second-1].EastN=microMouseSim[currCell.first][currCell.second].WestN;
         
-            floodFill(arr, m, n, endingCell.first, endingCell.second); 
-            // printarr(arr,m,n);
-            if (arr[currCell.first][currCell.second].NorthN +arr[currCell.first][currCell.second].SouthN+arr[currCell.first][currCell.second].EastN+arr[currCell.first][currCell.second].WestN<2)
-            {
-                  if (arr[currCell.first][currCell.second].NorthN==1)
-                {  nextCell.first=currCell.first-1;
-                   nextCell.second=currCell.second;
-                }
-                 if (arr[currCell.first][currCell.second].SouthN==1)
-                {  nextCell.first=currCell.first+1;
-                   nextCell.second=currCell.second;
-                }
-                 if (arr[currCell.first][currCell.second].EastN==1)
-                {  nextCell.first=currCell.first;
-                   nextCell.second=currCell.second+1;
-                }
-                 if (arr[currCell.first][currCell.second].WestN==1)
-                {  nextCell.first=currCell.first;
-                   nextCell.second=currCell.second-1;
-                }
-                      
+        arr[currCell.first][currCell.second].NorthN=microMouseSim[currCell.first][currCell.second].NorthN;
+        arr[currCell.first-1][currCell.second].SouthN=microMouseSim[currCell.first][currCell.second].NorthN;
+        
+        arr[currCell.first][currCell.second].SouthN=microMouseSim[currCell.first][currCell.second].SouthN;
+        arr[currCell.first+1][currCell.second].NorthN=microMouseSim[currCell.first][currCell.second].SouthN;
+        
+        // cout<<"Iteration: "<<k<<" #####################################"<<endl;
+        // cout<<endl;
+    
+        floodFill(arr, m, n, endingCell.first, endingCell.second); 
+        // printarr(arr,m,n);
+        if (arr[currCell.first][currCell.second].NorthN +arr[currCell.first][currCell.second].SouthN+arr[currCell.first][currCell.second].EastN+arr[currCell.first][currCell.second].WestN<2)
+        {
+              if (arr[currCell.first][currCell.second].NorthN==1)
+            {  nextCell.first=currCell.first-1;
+                nextCell.second=currCell.second;
             }
+              if (arr[currCell.first][currCell.second].SouthN==1)
+            {  nextCell.first=currCell.first+1;
+                nextCell.second=currCell.second;
+            }
+              if (arr[currCell.first][currCell.second].EastN==1)
+            {  nextCell.first=currCell.first;
+                nextCell.second=currCell.second+1;
+            }
+              if (arr[currCell.first][currCell.second].WestN==1)
+            {  nextCell.first=currCell.first;
+                nextCell.second=currCell.second-1;
+            }
+                  
+        }
 
+        else
+        {
+            if(arr[currCell.first][currCell.second].NorthN==1)
+            {
+              arr[currCell.first-1][currCell.second].PosX= currCell.first-1;
+              arr[currCell.first-1][currCell.second].PosY= currCell.second;
+              temp[0]=arr[currCell.first-1][currCell.second];
+
+            }
+            if(arr[currCell.first][currCell.second].SouthN==1)
+            {
+              arr[currCell.first+1][currCell.second].PosX= currCell.first+1;
+              arr[currCell.first+1][currCell.second].PosY= currCell.second;
+              temp[1]=arr[currCell.first+1][currCell.second];
+
+            }
+            if(arr[currCell.first][currCell.second].EastN==1)
+            {
+              arr[currCell.first][currCell.second+1].PosX= currCell.first;
+              arr[currCell.first][currCell.second+1].PosY= currCell.second+1;
+              temp[2]=arr[currCell.first][currCell.second+1];
+
+            }
+            if(arr[currCell.first][currCell.second].WestN==1)
+            {
+              arr[currCell.first][currCell.second-1].PosX= currCell.first;
+              arr[currCell.first][currCell.second-1].PosY= currCell.second-1;
+              temp[3]=arr[currCell.first][currCell.second-1];
+
+            }
+        
+        bubbleSort(temp,sizeof(temp) / sizeof(temp[0]));
+        nextCell.first=temp[0].PosX;
+        nextCell.second=temp[0].PosY;
+        
+
+      
+
+  }
+    // if we have reached centre, break.
+  
+    if(arr[currCell.first][currCell.second].data==0) 
+    {
+          //cout<<"Destination Reached"<<endl;
+          if (firstTime==true)
+          {
+            //cout<<"Going back to start Point"<<endl;
+            
+            endingCell.first=startingCell.first;
+            endingCell.second=startingCell.second;
+            for (int i = 0; i < m; i++) 
+            {
+                for (int j = 0; j < n; j++)
+                      {  arr[i][j].data=0;
+                        
+                      } 
+            }
+            firstTime=false;
+          return(currCell);
+          }
+          achieved_back_to_square_0 = 1;//##########################################//
+      
+    }
+    if (firstTime==false)
+    {
+      if(pathStack.sizeOf() == 0)
+          {
+            pathStack.push(&currCell);
+            
+          }
+      else{
+            pathStack.peek(&xy);
+            if(xy.first==nextCell.first && xy.second == nextCell.second)
+            {  pathStack.pop(&xy);
+            
+            }
             else
             {
-                if(arr[currCell.first][currCell.second].NorthN==1)
-                {
-                  arr[currCell.first-1][currCell.second].PosX= currCell.first-1;
-                  arr[currCell.first-1][currCell.second].PosY= currCell.second;
-                  temp[0]=arr[currCell.first-1][currCell.second];
-
-                }
-                if(arr[currCell.first][currCell.second].SouthN==1)
-                {
-                  arr[currCell.first+1][currCell.second].PosX= currCell.first+1;
-                  arr[currCell.first+1][currCell.second].PosY= currCell.second;
-                  temp[1]=arr[currCell.first+1][currCell.second];
-
-                }
-                if(arr[currCell.first][currCell.second].EastN==1)
-                {
-                  arr[currCell.first][currCell.second+1].PosX= currCell.first;
-                  arr[currCell.first][currCell.second+1].PosY= currCell.second+1;
-                  temp[2]=arr[currCell.first][currCell.second+1];
-
-                }
-                if(arr[currCell.first][currCell.second].WestN==1)
-                {
-                  arr[currCell.first][currCell.second-1].PosX= currCell.first;
-                  arr[currCell.first][currCell.second-1].PosY= currCell.second-1;
-                  temp[3]=arr[currCell.first][currCell.second-1];
-
-                }
-            
-            bubbleSort(temp,sizeof(temp) / sizeof(temp[0]));
-            nextCell.first=temp[0].PosX;
-            nextCell.second=temp[0].PosY;
-            
-
-          
-
-      }
-       // if we have reached centre, break.
-      
-        if(arr[currCell.first][currCell.second].data==0) 
-        {
-              //cout<<"Destination Reached"<<endl;
-              if (firstTime==true)
-              {
-                //cout<<"Going back to start Point"<<endl;
-                
-                endingCell.first=startingCell.first;
-                endingCell.second=startingCell.second;
-                for (int i = 0; i < m; i++) 
-                {
-                    for (int j = 0; j < n; j++)
-                         {  arr[i][j].data=0;
-                           
-                         } 
-                }
-                firstTime=false;
-              continue;
-              }
+              pathStack.push(&currCell);
               
-              break;
-          
-        }
-        if (firstTime==false)
-        {
-          if(pathStack.sizeOf() == 0)
-              {
-                pathStack.push(&currCell);
-                
-              }
-          else{
-                pathStack.peek(&xy);
-                if(xy.first==nextCell.first && xy.second == nextCell.second)
-                {  pathStack.pop(&xy);
-                
-                }
-                else
-                {
-                  pathStack.push(&currCell);
-                  
-                }
-          
-          }
-          
-        }
-        
-        //cout<<"Next Cell:"<<nextCell.first<<" "<<nextCell.second<<endl;
-        
-        currCell=nextCell;
+            }
+      
+      }
+      
+    }
+    
+    //cout<<"Next Cell:"<<nextCell.first<<" "<<nextCell.second<<endl;
+    
+    return(nextCell);
         
   }
     
@@ -439,4 +402,3 @@ pair main_flood(){
     //     pathStack.pop();
     // }
     
-}
