@@ -29,7 +29,8 @@ void setup() {
   Serial.begin(115200);
 // Motor Driver
  _main_setup();
- init_flood();
+
+//  init_flood();
  
 
 }
@@ -95,6 +96,7 @@ void simulation(){
 }
 
 void loop() {
+  
   yaw = correctEulerYaw(get_yaw());
   anglePID1(correctEulerYaw(headingAngle_input));
   updateRpm();
@@ -105,17 +107,39 @@ void loop() {
   irReadRF = digitalRead(iRRightfront);
   irReadRS = digitalRead(iRRightside);
   CurrentMillis = millis();
+  
   // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
   // simulation();
-  if(CurrentMillis>10000){
-  if(!achieved1 && !achieved){
-    achieved = moveToCell(15,0);
+  // if(CurrentMillis>10000){
+  // Serial.print(currCell.first);
+  // Serial.print(" ");
+  // Serial.println(currCell.second);
+  // if(achieved){
+  //   // delay(500);
+  //   irReadLF = digitalRead(iRLeftfront);
+  //   irReadLS = digitalRead(iRLeftside);
+  //   irReadRF = digitalRead(iRRightfront);
+  //   irReadRS = digitalRead(iRRightside);
+  //   currCell = main_flood(currCell);
+  //   achieved = 0;
+  // }
+  if(currentMillis>10000){
+    if(!achieved && !achieved1){
+      achieved = moveToCell(15, 0);
+    }
+    if(achieved && !achieved1){
+      achieved1 = moveToCell(15,3);
+    }
   }
   
-  if(achieved){
-    achieved1 = moveToCell(15,3);
-  }
-  currCell = main_flood(currCell);
+  // achieved = moveToCell(15,3);
+  // currCell = main_flood(currCell);
+  // achieved = moveToCell(currCell.first,currCell.second);
+  // Serial.print(achieved);
+  // Serial.print(" ");
+  // Serial.print(currCell.first);
+  // Serial.print(" ");
+  // Serial.println(currCell.second);
   // achieved1 = moveToCell(0,3);
   // Serial.print(current_position_x);
   // Serial.print(" ");
@@ -136,4 +160,4 @@ void loop() {
   // displayPWMGraph();
   // displayVelocityOdom();
 
-}
+// }

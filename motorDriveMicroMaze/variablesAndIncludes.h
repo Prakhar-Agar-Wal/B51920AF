@@ -6,32 +6,32 @@
 
 
 // Motor driver Pins 
-const PROGMEM uint8_t in1Left  = A0;
-const PROGMEM uint8_t in2Left  = 13;
-const PROGMEM uint8_t in1Right  = 12;
-const PROGMEM uint8_t in2Right  = 11;
+const int in1Left  = A0;
+const int in2Left  = 13;
+const int in1Right  = 12;
+const int in2Right  = 11;
 
-const uint8_t pwmLeft = 10;  //PWMS
-const uint8_t pwmRight = 9; //PWMS
+const int pwmLeft = 10;  //PWMS
+const int pwmRight = 9; //PWMS
 
 //IR sensor Pins
 
-const uint8_t iRLeftfront = A3;
-const uint8_t iRLeftside = A2;
-const uint8_t iRRightfront = 3;
-const uint8_t iRRightside = 4;
+const int iRLeftfront = A3;
+const int iRLeftside = A2;
+const int iRRightfront = 3;
+const int iRRightside = 4;
 
 //IR Variables
-uint8_t irReadLF = 0;
-uint8_t irReadLS = 0;
-uint8_t irReadRF = 0;
-uint8_t irReadRS = 0;
+int irReadLF = 0;
+int irReadLS = 0;
+int irReadRF = 0;
+int irReadRS = 0;
 
 //Encoder pins and Initialization
 // Encoder rightEnc(5);
 // Encoder leftEnc(8);
-const uint8_t encLeft = 8;
-const uint8_t encRight = 5;
+const int encLeft = 8;
+const int encRight = 5;
 bool previousStateLeft = 0;
 bool previousStateRight = 0;
 bool currReadLeft = 0;
@@ -53,8 +53,8 @@ volatile int rpmLeft = 0;
 volatile int rot_speed;
 long previousMillis = 0;
 long currentMillis = 0;
-const uint8_t interval = 40;
-const uint8_t PPR = 60;
+const int interval = 40;
+const int PPR = 60;
 
 
 // PID initialization
@@ -128,10 +128,10 @@ float previous_distance = 0;
 float current_distance = 0.13;
 // struct neighbors{
 //     bool visited,NorthN,EastN,SouthN,WestN;
-//     uint8_t data;
+//     int data;
 // };
-uint8_t current_position_x = 0;
-uint8_t current_position_y = 0;
+int current_position_x = 0;
+int current_position_y = 0;
 
 float cell_length = 0.18;
 
@@ -142,22 +142,28 @@ bool achieved1 = 0;
 bool achieved_back_to_square_0 = 0;
 
 struct neighbors{
-    bool visited,NorthN,EastN,SouthN,WestN;
-    uint8_t data,PosX,PosY;
+    unsigned visited:1;
+    unsigned NorthN:1;
+    unsigned EastN:1;
+    unsigned SouthN:1;
+    unsigned WestN:1;
+    uint8_t data;
+    unsigned int PosX:5;
+    unsigned int PosY:5;
 };
 
 struct pair{
-  uint8_t first;
-  uint8_t second;
+  int first;
+  int second;
 };
 //main variables
 pair xy;
 cppQueue pathStack(sizeof(xy),255,LIFO);
 // Row of the maze
-uint8_t m = 8;
+int m = 8;
 // Column of the Maze
-uint8_t n = 8;
-pair startingCell={0};
+int n = 8;
+pair startingCell={2};
 pair nextCell={0};
 pair currCell = {startingCell.first,startingCell.second};
 pair endingCell = {m/2,n/2};
@@ -175,3 +181,11 @@ pair pathCell;
 
 bool firstTime=true;
 
+struct coordinates{
+  bool northPresent;
+  bool southPresent;
+  bool eastPresent;
+  bool westPresent;
+};
+
+static neighbors arr[8][8]={0};
