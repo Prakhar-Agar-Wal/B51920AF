@@ -12,31 +12,40 @@ bool neighborCheck( int m, int n, int x, int y)
 
 int floodFill(neighbors arr[][8] ,int m, int n, int x, int y)
 {
+    // Serial.println("inside flood fill");
     
     // cppQueue<pair<int, int> > queue;
    
     pair p={x, y};
-    cppQueue queue(sizeof(p),255,FIFO);
+    pair p1;
+    cppQueue queue(sizeof(p),20,FIFO); // do not increase this value 20 (the middle value), it is causing ram overwrite issues and garbage is getting printed
     queue.push(&p);
-    queue.pull(&p);
-   
+    // queue.peek(&p1);
+
+    
+    
+    // Serial.println(p1.first);
+  //   Serial.print("checking Queue ");
+  // Serial.print(p1.first);
+  // Serial.print(" ");
+  //  Serial.println(queue.isEmpty());
+
     arr[x][y].data = 0;
     arr[x][y].visited =1;
-    Serial.println(p.first);
     while (queue.isEmpty() != 1) {
-
+        // Serial.println("inside while");
         // Dequeue the front node
         pair currPixel;
         queue.pop(&currPixel);
         
         int posX = currPixel.first;
-        int posY = currPixel.second;
-            
+        int posY = currPixel.second;   
         
     
         if ((arr[posX][posY].SouthN==1) && (arr[posX-1][posY].visited==0)){
-            Serial.println("if south");
-            
+            // #if(DEBUG_MODE == 1)
+            // Serial.println("if south");
+            // #endif
             arr[posX - 1][posY].data = arr[posX][posY].data+1;
             
             
@@ -48,8 +57,9 @@ int floodFill(neighbors arr[][8] ,int m, int n, int x, int y)
         }
  
         if ((arr[posX][posY].NorthN==1 && arr[posX+1][posY].visited==0)) {
-            Serial.println("if north");
-            
+  // #if(DEBUG_MODE == 1)
+  //           Serial.println("if north");
+  //           #endif
             arr[posX + 1][posY].data = arr[posX][posY].data+1;
              
             p.first = posX + 1;
@@ -60,8 +70,9 @@ int floodFill(neighbors arr[][8] ,int m, int n, int x, int y)
         }
  
         if( (arr[posX][posY].EastN==1 && arr[posX][posY+1].visited==0)) {
-            Serial.println("if east");
-            
+  // #if(DEBUG_MODE == 1)
+  //           Serial.println("if east");
+  //           #endif
             arr[posX][posY + 1].data = arr[posX][posY].data+1;
              
             p.first = posX;
@@ -71,8 +82,9 @@ int floodFill(neighbors arr[][8] ,int m, int n, int x, int y)
         }
  
         if( (arr[posX][posY].WestN==1 && arr[posX][posY-1].visited==0) ){
-            Serial.println("if west");
-            
+  // #if(DEBUG_MODE == 1)
+  //           Serial.println("if west");
+  //           #endif
             arr[posX][posY - 1].data = arr[posX][posY].data+1;
              
             p.first = posX;
@@ -228,30 +240,36 @@ void bubbleSort(neighbors arr[], short int n)
 
 coordinates getShiftedNeighbours(){
   coordinates temp_coord= {1};
+  // Serial.print(irReadRF);
+  // Serial.print(" ");
+  // Serial.print(irReadRS);
+  // Serial.print(" ");
+  // Serial.println(irReadLS);
   if(setPointAngle == 0){
-    temp_coord.northPresent = !irReadRF;
-    temp_coord.eastPresent = !irReadRS;
-    temp_coord.westPresent = !irReadLS;
-    temp_coord.southPresent = !0;
+    temp_coord.northPresent = irReadRF;
+    temp_coord.eastPresent = irReadRS;
+    temp_coord.westPresent = irReadLS;
+    temp_coord.southPresent = 1;
   }
   else if(setPointAngle == 90){
-    temp_coord.northPresent = !irReadLS;
-    temp_coord.eastPresent = !irReadRF;
-    temp_coord.westPresent = !0;
-    temp_coord.southPresent = !irReadRS;
+    temp_coord.northPresent = irReadLS;
+    temp_coord.eastPresent = irReadRF;
+    temp_coord.westPresent = 1;
+    temp_coord.southPresent = irReadRS;
   }
   else if(setPointAngle == 180 || setPointAngle == -180){
-    temp_coord.northPresent = !0;
-    temp_coord.eastPresent = !irReadLS;
-    temp_coord.westPresent = !irReadRS;
-    temp_coord.southPresent = !irReadRF;
+    temp_coord.northPresent = 1;
+    temp_coord.eastPresent = irReadLS;
+    temp_coord.westPresent = irReadRS;
+    temp_coord.southPresent = irReadRF;
   }
   else if(setPointAngle == -90){
-    temp_coord.northPresent = !irReadRS;
-    temp_coord.eastPresent = !0;
-    temp_coord.westPresent = !irReadRF;
-    temp_coord.southPresent = !irReadLS;
+    temp_coord.northPresent = irReadRS;
+    temp_coord.eastPresent = 1;
+    temp_coord.westPresent = irReadRF;
+    temp_coord.southPresent = irReadLS;
   }
+  return temp_coord;
 }
 
 void init_flood(){
@@ -288,7 +306,14 @@ void init_flood(){
     // wallsInit(microMouseSim);
   // Serial.print(" ");
   // Serial.println(nextCell.second);
+  // #if(DEBUG_MODE == 1)
+  //   Serial.println("flood fill start #####################");
+  // #endif
+
     floodFill(arr, m, n, endingCell.first, endingCell.second);  //First init of FloodFill
+  // #if(DEBUG_MODE == 1)
+  //   Serial.println("flood fill end#####################");
+  //   #endif
 }
 
 pair main_flood(pair currCell){
@@ -299,7 +324,9 @@ pair main_flood(pair currCell){
                     {0,0,0,0,0,99,0,0},
                     {0,0,0,0,0,99,0,0},
                     {0,0,0,0,0,99,0,0}};
-    coordinates temp1_coordinates = getShiftedNeighbours();
+    coordinates temp1_coordinates;
+    temp1_coordinates = getShiftedNeighbours();
+    
     // Serial.print(temp1_coordinates.eastPresent);
     // Serial.print(" ");
     // Serial.print(temp1_coordinates.westPresent);
@@ -309,18 +336,33 @@ pair main_flood(pair currCell){
     // Serial.println(temp1_coordinates.southPresent);
 
         // arr[currCell.first][currCell.second].visitedMouse=1;
+        if(neighborCheck(m, n, currCell.first, currCell.second+1)){
         arr[currCell.first][currCell.second].EastN=temp1_coordinates.eastPresent;
         arr[currCell.first][currCell.second+1].WestN=temp1_coordinates.eastPresent;
-
+        }
+        if(neighborCheck(m, n, currCell.first, currCell.second-1)){
         arr[currCell.first][currCell.second].WestN=temp1_coordinates.westPresent;
         arr[currCell.first][currCell.second-1].EastN=temp1_coordinates.westPresent;
-        
+        }
+        if(neighborCheck(m, n, currCell.first+1, currCell.second)){
         arr[currCell.first][currCell.second].NorthN=temp1_coordinates.northPresent;
         arr[currCell.first+1][currCell.second].SouthN=temp1_coordinates.northPresent;
-        
+        }
+
+        if(neighborCheck(m, n, currCell.first-1, currCell.second)){
         arr[currCell.first][currCell.second].SouthN=temp1_coordinates.southPresent;
         arr[currCell.first-1][currCell.second].NorthN=temp1_coordinates.southPresent;
-        
+        }
+        // #if(DEBUG_MODE == 1)
+        // Serial.print("array current cell east west north south ");
+        // Serial.print(arr[currCell.first][currCell.second].EastN);
+        // Serial.print(" ");
+        // Serial.print(arr[currCell.first][currCell.second].WestN);
+        // Serial.print(" ");
+        // Serial.print(arr[currCell.first][currCell.second].NorthN);
+        // Serial.print(" ");
+        // Serial.println(arr[currCell.first][currCell.second].SouthN);
+        // #endif
         // cout<<"Iteration: "<<k<<" #####################################"<<endl;
         // cout<<endl;
     
@@ -354,14 +396,14 @@ pair main_flood(pair currCell){
             {
               arr[currCell.first+1][currCell.second].PosX= currCell.first+1;
               arr[currCell.first+1][currCell.second].PosY= currCell.second;
-              temp[0]=arr[currCell.first-1][currCell.second];
+              temp[0]=arr[currCell.first+1][currCell.second];
 
             }
             if(arr[currCell.first][currCell.second].SouthN==1)
             {
               arr[currCell.first-1][currCell.second].PosX= currCell.first-1;
               arr[currCell.first-1][currCell.second].PosY= currCell.second;
-              temp[1]=arr[currCell.first+1][currCell.second];
+              temp[1]=arr[currCell.first-1][currCell.second];
 
             }
             if(arr[currCell.first][currCell.second].EastN==1)
@@ -382,6 +424,12 @@ pair main_flood(pair currCell){
         bubbleSort(temp,sizeof(temp) / sizeof(temp[0]));
         nextCell.first=temp[0].PosX;
         nextCell.second=temp[0].PosY;
+        // #if(DEBUG_MODE == 1)
+        // Serial.print("Next cell from flood fill: ");
+        // Serial.print(temp[0].PosX);
+        // Serial.print(" ");
+        // Serial.println(temp[0].PosY);
+        // #endif
         
 
       

@@ -30,8 +30,8 @@ void Brake()
   digitalWrite(in2Right, HIGH);
   if (rpmLeft>=20 && rpmRight>=20){
     // Serial.println("brakinggggg");
-    analogWrite(pwmLeft,50);
-    analogWrite(pwmRight,50);
+    analogWrite(pwmLeft,20);
+    analogWrite(pwmRight,20);
     // analogWrite(pwmLeft,255);
     // analogWrite(pwmRight,255);
   }
@@ -114,18 +114,19 @@ int launchControl(volatile int setPoint){
 }
 
 bool moveToCell(int pos_x_to_achieve, int pos_y_to_achieve){
+  int speed = 250;
     if((current_position_y-pos_y_to_achieve)==0 && (current_position_x-pos_x_to_achieve)==0){
       setPointLinear = 0;
       return 1;
     }
     if((current_position_x == pos_x_to_achieve)){
       headingAngle_input = ((current_position_y-pos_y_to_achieve)>0)?-90:90;
-      setPointLinear = 300;
+      setPointLinear = speed;
       return 0;
     }
     if((current_position_y == pos_y_to_achieve)){
       headingAngle_input = ((current_position_x-pos_x_to_achieve)>0)?-180:0;
-      setPointLinear = 300;
+      setPointLinear = speed;
       return 0;
     }
     Serial.println("Illegal input");

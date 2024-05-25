@@ -3,6 +3,8 @@
 #include <cppQueue.h>
 // #include <Encoder.h>
 
+#define DEBUG_MODE 0
+
 
 
 // Motor driver Pins 
@@ -158,12 +160,12 @@ struct pair{
 };
 //main variables
 pair xy;
-cppQueue pathStack(sizeof(xy),255,LIFO);
+cppQueue pathStack(sizeof(xy),50,LIFO); // do not increase this value, it is causing ram overwrite issues and garbage is getting printed
 // Row of the maze
 int m = 8;
 // Column of the Maze
 int n = 8;
-pair startingCell={2};
+pair startingCell={0};
 pair nextCell={0};
 pair currCell = {startingCell.first,startingCell.second};
 pair endingCell = {m/2,n/2};

@@ -30,7 +30,7 @@ void setup() {
 // Motor Driver
  _main_setup();
 
-//  init_flood();
+ init_flood();
  
 
 }
@@ -95,6 +95,24 @@ void simulation(){
 
 }
 
+void stateMachineRunSwitch(){
+  int casee = 0;
+  if(achieved) {casee++; achieved = 0;}
+
+  if(casee == 0 && !achieved){
+    achieved = moveToCell(-4,0);
+  }
+  else if(casee == 1 && !achieved){
+    achieved = moveToCell(-4,4);
+  }
+  else if(casee == 2 && !achieved){
+    achieved = moveToCell(-4,1);
+  }
+  else{
+    setPointLinear = 0;
+  }
+}
+
 void loop() {
   
   yaw = correctEulerYaw(get_yaw());
@@ -107,6 +125,8 @@ void loop() {
   irReadRF = digitalRead(iRRightfront);
   irReadRS = digitalRead(iRRightside);
   CurrentMillis = millis();
+
+  // stateMachineRunSwitch();
   
   // if ((irReadLF == 0 ) || (irReadLS == 0 ) || (irReadRF == 0 ) || (irReadRS == 0 ))
   // simulation();
@@ -114,27 +134,46 @@ void loop() {
   // Serial.print(currCell.first);
   // Serial.print(" ");
   // Serial.println(currCell.second);
-  // if(achieved){
-  //   // delay(500);
-  //   irReadLF = digitalRead(iRLeftfront);
-  //   irReadLS = digitalRead(iRLeftside);
-  //   irReadRF = digitalRead(iRRightfront);
-  //   irReadRS = digitalRead(iRRightside);
-  //   currCell = main_flood(currCell);
-  //   achieved = 0;
-  // }
-  if(currentMillis>10000){
-    if(!achieved && !achieved1){
-      achieved = moveToCell(15, 0);
-    }
-    if(achieved && !achieved1){
-      achieved1 = moveToCell(15,3);
-    }
+// #####################
+  if(achieved && !achieved_back_to_square_0){
+    // delay(500);
+    irReadLF = digitalRead(iRLeftfront);
+    irReadLS = digitalRead(iRLeftside);
+    irReadRF = digitalRead(iRRightfront);
+    irReadRS = digitalRead(iRRightside);
+    #if (DEBUG_MODE == 1)
+    Serial.print("Current cell");
+    Serial.print(" ");
+    Serial.print(currCell.first);
+    Serial.print(" ");
+    Serial.println(currCell.second);
+    #endif
+    currCell = main_flood(currCell);
+    #if (DEBUG_MODE == 1)
+    Serial.print("Next cell");
+    Serial.print(" ");
+    Serial.print(currCell.first);
+    Serial.print(" ");
+    Serial.println(currCell.second);
+    #endif
+    achieved = 0;
   }
+// ###########################
+  // if(currentMillis>10000){
+  //   if(!achieved && !achieved1){
+  //     achieved = moveToCell(15, 0);
+  //   }
+  //   if(achieved && !achieved1){
+  //     achieved1 = moveToCell(15,3);
+  //   }
+  // }
   
-  // achieved = moveToCell(15,3);
   // currCell = main_flood(currCell);
-  // achieved = moveToCell(currCell.first,currCell.second);
+  // #########################################
+  if(!achieved_back_to_square_0)
+  achieved = moveToCell(currCell.first,currCell.second);
+  else setPointLinear = 0;
+  // ####################################
   // Serial.print(achieved);
   // Serial.print(" ");
   // Serial.print(currCell.first);

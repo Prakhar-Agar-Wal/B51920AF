@@ -127,7 +127,10 @@ void updateRpm(){
   }
   // Serial.println(launchControlActive);
   setPointLinear = launchControl(setPointLinear);
-  if(abs(yaw-headingAngle_input)>10){
+  if(abs(abs(yaw)-abs(headingAngle_input))>10){
+    // Serial.print(yaw);
+    // Serial.print(" ");
+    // Serial.println(headingAngle_input);
     setPointLinear = 0;
   }
   
