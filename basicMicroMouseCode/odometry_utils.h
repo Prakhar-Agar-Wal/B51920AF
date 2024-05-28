@@ -11,6 +11,9 @@ int calculateRPM(int currentEncoder, int previousEncoder)
 void updateEnc(){
   currReadLeft = digitalRead(encLeft);
   currReadRight = digitalRead(encRight);
+  Serial.print(currReadLeft);
+  Serial.print(" ");
+  Serial.println(currReadRight);
   if (currReadRight != previousStateRight){
     curPosRight++;
     previousStateRight = currReadRight;

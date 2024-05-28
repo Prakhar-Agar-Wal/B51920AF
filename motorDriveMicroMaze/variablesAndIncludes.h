@@ -3,7 +3,7 @@
 #include <cppQueue.h>
 // #include <Encoder.h>
 
-#define DEBUG_MODE 0
+#define DEBUG_MODE 1
 
 
 
@@ -168,7 +168,7 @@ int n = 8;
 pair startingCell={0};
 pair nextCell={0};
 pair currCell = {startingCell.first,startingCell.second};
-pair endingCell = {m/2,n/2};
+pair endingCell = {7,7};
 pair pathCell;
 
 // endingCell.first=m/2;

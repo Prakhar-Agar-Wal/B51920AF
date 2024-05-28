@@ -21,7 +21,24 @@
 //     strCounterForFrames=0;
 //   }
 // }
-
+void uTurn(){
+  if(setPointAngle == 0){
+    setPointAngle = -180;
+    currentCell_x -=1;
+  }
+  else if(setPointAngle == -180 || setPointAngle == 180){
+    setPointAngle = 0;
+    currentCell_x +=1;
+  }
+  else if(setPointAngle == 90){
+    setPointAngle = -90;
+    currentCell_y-=1;
+  }
+  else if(setPointAngle == -90){
+    setPointAngle = 90;
+    currentCell_y+=1;
+  }
+}
 void setup() {
 // Serial Begin
   // NeoSerial.attachInterrupt(inputs);
@@ -100,7 +117,7 @@ void stateMachineRunSwitch(){
   if(achieved) {casee++; achieved = 0;}
 
   if(casee == 0 && !achieved){
-    achieved = moveToCell(-4,0);
+    achieved = moveToCell(15,0);
   }
   else if(casee == 1 && !achieved){
     achieved = moveToCell(-4,4);
@@ -113,24 +130,7 @@ void stateMachineRunSwitch(){
   }
 }
 
-void uTurn(){
-  if(setPointAngle == 0){
-    setPointAngle = -180;
-    currentCell_x -=1;
-  }
-  else if(setPointAngle == -180 || setPointAngle == 180){
-    setPointAngle = 0;
-    currentCell_x +=1;
-  }
-  else if(setPointAngle == 90){
-    setPointAngle = -90;
-    currentCell_y-=1;
-  }
-  else if(setPointAngle == -90){
-    setPointAngle = 90;
-    currentCell_y+=1;
-  }
-}
+
 
 void turnRight(){
   if(setPointAngle == 0){
@@ -171,7 +171,7 @@ void turnLeft(){
   }
 }
 
-void forward(){
+void forward__(){
   if(setPointAngle == 0){
     currentCell_x +=1;
   }
@@ -187,9 +187,9 @@ void forward(){
 }
 
 void checkAndMove(){
-  irReadFront = irReadLF || irReadRF;
+  bool irReadFront = irReadLF || irReadRF;
   if(irReadFront && irReadLS && irReadRS){
-    uTrun();
+    uTurn();
   }
   else if(!irReadRS){
     turnRight();
@@ -198,13 +198,15 @@ void checkAndMove(){
     turnLeft();
   }
   else{
-    forward();
+    forward__();
   }
   moveToCell(currentCell_x, currentCell_y);
 }
 
 void loop() {
   
+  
+
   yaw = correctEulerYaw(get_yaw());
   anglePID1(correctEulerYaw(headingAngle_input));
   updateRpm();
@@ -215,6 +217,8 @@ void loop() {
   irReadRF = digitalRead(iRRightfront);
   irReadRS = digitalRead(iRRightside);
   CurrentMillis = millis();
+
+  setPointLinear = 100;
 
   // stateMachineRunSwitch();
   
@@ -264,19 +268,19 @@ void loop() {
   // achieved = moveToCell(currCell.first,currCell.second);
   // else setPointLinear = 0;
   // ####################################
-  if(achieved){
-    setPointLinear = 0;
-    delay(500);
-    checkAndMove();
-    achieved = moveToCell(current_position_x, current_position_y);
-  }
-  else if(!achieved && (irReadLF||irReadRF)){
-    setPointLinear = 0;
-    achieved = 1;
-  }
-  else{
-    achieved = moveToCell(current_position_x, current_position_y);
-  }
+  // if(achieved){
+  //   setPointLinear = 0;
+  //   delay(500);
+  //   checkAndMove();
+  //   achieved = moveToCell(current_position_x, current_position_y);
+  // }
+  // else if(!achieved && (irReadLF||irReadRF)){
+  //   setPointLinear = 0;
+  //   achieved = 1;
+  // }
+  // else{
+  //   achieved = moveToCell(current_position_x, current_position_y);
+  // }
   // Serial.print(achieved);
   // Serial.print(" ");
   // Serial.print(currCell.first);
@@ -292,6 +296,7 @@ void loop() {
   // Serial.print(yaw);
   // Serial.print(" ");
   // Serial.println(current_distance);
+  // displayPWMGraph();
   }
 
 
@@ -299,7 +304,7 @@ void loop() {
   // Serial.println((yaw));
   // Serial.print(" ");
 
-  // displayPWMGraph();
+  
   // displayVelocityOdom();
 
 // }

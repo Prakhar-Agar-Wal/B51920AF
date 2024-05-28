@@ -114,7 +114,7 @@ int launchControl(volatile int setPoint){
 }
 
 bool moveToCell(int pos_x_to_achieve, int pos_y_to_achieve){
-  int speed = 250;
+  int speed = 100;
     if((current_position_y-pos_y_to_achieve)==0 && (current_position_x-pos_x_to_achieve)==0){
       setPointLinear = 0;
       return 1;
